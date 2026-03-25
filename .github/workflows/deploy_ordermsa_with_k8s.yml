@@ -39,7 +39,8 @@ jobs:
           kubectl create secret generic my-app-secrets \
           --from-literal=DB_HOST=kbh-team-rds-mysql.clo62q46ww0g.ap-northeast-2.rds.amazonaws.com \
           --from-literal=DB_PW='admin1234' \
-          -n soldesk    
+          -n soldesk \
+          --dry-run=client -o yaml | kubectl apply -f -
       
       - name: install ingress-nginx controller
         run: |
