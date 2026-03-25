@@ -44,17 +44,6 @@ jobs:
           --from-literal=DB_PW='admin1234' \
           -n soldesk \
           --dry-run=client -o yaml | kubectl apply -f -
-      
-      - name: aws secret
-        run: |
-         kubectl create secret generic aws-secret \
-         --from-literal=AWS_ACCESS_KEY_ID="$S3_AWS_ACCESS_KEY_ID" \
-         --from-literal=AWS_SECRET_ACCESS_KEY="$S3_AWS_SECRET_ACCESS_KEY" \
-         -n soldesk \
-         --dry-run=client -o yaml | kubectl apply -f -
-        env:
-         S3_AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_ACCESS_KEY_ID }}
-         S3_AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_SECRET_ACCESS_KEY }}
 
       
       - name: install ingress-nginx controller
@@ -219,6 +208,16 @@ jobs:
       - name: autoscaler apply
         run: |
           kubectl apply -R -f ./msa/k8s/autoscaler
+      - name: aws secret
+        run: |
+          kubectl create secret generic aws-secret \
+          --from-literal=AWS_ACCESS_KEY_ID="$S3_AWS_ACCESS_KEY_ID" \
+          --from-literal=AWS_SECRET_ACCESS_KEY="$S3_AWS_SECRET_ACCESS_KEY" \
+          -n soldesk \
+          --dry-run=client -o yaml | kubectl apply -f -
+        env:
+          S3_AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_ACCESS_KEY_ID }}
+          S3_AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_SECRET_ACCESS_KEY }}
 
       - name: apply argocd manifests
         # if: steps.changes.outputs.argocd == 'true'
