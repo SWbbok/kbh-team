@@ -1,365 +1,91 @@
-/* ===== Spring Theme ===== */
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KBH Mall</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <div class="top-banner">봄맞이 특가 · 인기 상품 무료배송 이벤트 진행 중</div>
 
-* {
-  box-sizing: border-box;
-}
+  <header class="header spring-header">
+    <div class="container">
+      <a href="/" class="brand">KBH <span class="brand-accent">Mall</span></a>
+      <nav class="nav">
+        <a class="btn btn-secondary" data-guest-only href="/login.html">로그인</a>
+        <a class="btn btn-secondary" data-guest-only href="/signup.html">회원가입</a>
+        <a class="btn btn-primary" data-auth-only style="display:none;" href="/product-create.html">상품등록</a>
+        <div id="userBox"></div>
+      </nav>
+    </div>
+  </header>
 
-body {
-  background:
-    radial-gradient(circle at top right, rgba(255, 214, 231, 0.35), transparent 20%),
-    radial-gradient(circle at left bottom, rgba(221, 245, 197, 0.35), transparent 25%),
-    linear-gradient(180deg, #fffaf6 0%, #fffdf9 100%);
-  color: #44352f;
-  position: relative;
-  overflow-x: hidden;
-}
+  <main class="container">
+    <section class="hero hero-commerce spring-hero">
+      <div class="hero-panel hero-promo spring-panel">
+        <div class="hero-label-row">
+          <span class="hero-kicker">SPRING BLOOM</span>
+          <span class="hero-badge">봄 신상 업데이트</span>
+        </div>
+        <h1>화사한 봄을 담은<br>인기 상품 모음</h1>
+        <p>벚꽃처럼 산뜻한 신상품부터 지금 가장 많이 찾는 인기 상품까지 한눈에 만나보세요.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#productSection">봄 상품 보러가기</a>
+          <a class="btn btn-light" data-guest-only href="/signup.html">신규 회원 혜택 보기</a>
+          <a class="btn btn-light" data-auth-only style="display:none;" href="/product-create.html">새 상품 등록</a>
+        </div>
+        <div class="hero-tags">
+          <span>#봄신상</span>
+          <span>#벚꽃감성</span>
+          <span>#무료배송</span>
+          <span>#산뜻한쇼핑</span>
+        </div>
+      </div>
 
-.spring-bg::before,
-.spring-bg::after {
-  content: "";
-  position: fixed;
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  filter: blur(70px);
-  z-index: -1;
-  opacity: 0.65;
-}
+      <div class="hero-side hero-side-commerce">
+        <article class="mini-card promo-card dark spring-card-pink">
+          <div class="mini-card-overline">SPRING BENEFIT</div>
+          <div class="mini-card-title">봄맞이 신규 회원 쿠폰</div>
+          <div class="mini-card-text">첫 구매 고객을 위한 산뜻한 혜택으로 기분 좋은 쇼핑을 시작하세요.</div>
+        </article>
+        <article class="mini-card promo-card light spring-card-green">
+          <div class="mini-card-overline">SPRING CURATION</div>
+          <div class="mini-card-title">지금 많이 보는 봄 아이템</div>
+          <div class="mini-card-text">계절감 가득한 인기 상품을 빠르게 둘러보세요.</div>
+        </article>
+      </div>
+    </section>
 
-.spring-bg::before {
-  top: 30px;
-  left: -40px;
-  background: rgba(255, 201, 221, 0.7);
-}
+    <section class="category-strip" aria-label="카테고리 안내">
+      <div class="category-chip">전체 상품</div>
+      <div class="category-chip">봄 신상</div>
+      <div class="category-chip">인기 상품</div>
+      <div class="category-chip">플라워 감성</div>
+      <div class="category-chip">추천 아이템</div>
+    </section>
 
-.spring-bg::after {
-  bottom: 50px;
-  right: -50px;
-  background: rgba(224, 247, 195, 0.7);
-}
+    <section id="productSection">
+      <div class="section-head">
+        <div>
+          <div class="section-title">봄 추천 상품</div>
+          <div class="section-sub">화사한 분위기의 상품을 선택해 자세히 확인해보세요.</div>
+        </div>
+        <div class="section-sub section-count" id="productCount">상품을 불러오는 중</div>
+      </div>
+      <div id="productList" class="grid"></div>
+    </section>
+  </main>
 
-.top-banner {
-  background: linear-gradient(90deg, #ffd8e8, #ffe9cc);
-  color: #8a4d63;
-  text-align: center;
-  font-weight: 700;
-  padding: 12px 16px;
-  font-size: 14px;
-  letter-spacing: 0.2px;
-}
+  <footer class="footer container">
+    <div>KBH Mall</div>
+    <div class="footer-sub">봄처럼 화사한 쇼핑을 위한 셀렉션</div>
+  </footer>
 
-.spring-header {
-  background: rgba(255, 250, 251, 0.85);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(243, 214, 226, 0.8);
-  position: sticky;
-  top: 0;
-  z-index: 20;
-}
-
-.brand {
-  font-size: 28px;
-  font-weight: 800;
-  text-decoration: none;
-  color: #44352f;
-}
-
-.brand-accent {
-  color: #ff7fa8;
-}
-
-.spring-hero {
-  display: grid;
-  grid-template-columns: 1.5fr 0.9fr;
-  gap: 24px;
-  margin-top: 28px;
-  margin-bottom: 28px;
-}
-
-.spring-panel {
-  position: relative;
-  overflow: hidden;
-  padding: 48px;
-  border-radius: 32px;
-  background: linear-gradient(135deg, #fff0f6 0%, #fff8ee 52%, #f1ffe7 100%);
-  border: 1px solid #f7d8e4;
-  box-shadow: 0 18px 40px rgba(231, 164, 191, 0.18);
-}
-
-.hero-label-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-}
-
-.hero-kicker,
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.hero-kicker {
-  background: #ffe2ee;
-  color: #cc5f88;
-}
-
-.hero-badge {
-  background: #ebf8da;
-  color: #6a8d45;
-}
-
-.spring-panel h1 {
-  font-size: 44px;
-  line-height: 1.22;
-  margin: 0 0 16px;
-  color: #6e3c57;
-}
-
-.spring-panel p {
-  font-size: 17px;
-  line-height: 1.7;
-  color: #6d5a53;
-  margin-bottom: 26px;
-  max-width: 680px;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  border-radius: 14px;
-  padding: 12px 18px;
-  font-weight: 700;
-  transition: all 0.22s ease;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-}
-
-.btn-primary {
-  background: linear-gradient(90deg, #ff8fb3, #ffb58f);
-  color: #fff;
-  border: none;
-  box-shadow: 0 10px 20px rgba(255, 150, 184, 0.28);
-}
-
-.btn-secondary,
-.btn-light {
-  background: rgba(255, 255, 255, 0.92);
-  color: #b35d7e;
-  border: 1px solid #f3d8e4;
-}
-
-.hero-tags {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.hero-tags span {
-  background: rgba(255, 255, 255, 0.8);
-  color: #b56382;
-  border: 1px solid #f2d9e3;
-  border-radius: 999px;
-  padding: 9px 14px;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.hero-side-commerce {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.mini-card {
-  border-radius: 28px;
-  padding: 26px;
-  box-shadow: 0 12px 28px rgba(192, 165, 137, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-}
-
-.spring-card-pink {
-  background: linear-gradient(135deg, #ffd3e4, #fff0f7);
-  color: #6a4152;
-}
-
-.spring-card-green {
-  background: linear-gradient(135deg, #efffdc, #fbfff1);
-  color: #56703f;
-}
-
-.mini-card-overline {
-  font-size: 12px;
-  font-weight: 800;
-  opacity: 0.8;
-  margin-bottom: 10px;
-}
-
-.mini-card-title {
-  font-size: 22px;
-  font-weight: 800;
-  margin-bottom: 8px;
-}
-
-.mini-card-text {
-  font-size: 15px;
-  line-height: 1.65;
-}
-
-.category-strip {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin: 6px 0 28px;
-}
-
-.category-chip {
-  background: rgba(255, 255, 255, 0.88);
-  color: #a95d7a;
-  border: 1px solid #f1d6e2;
-  border-radius: 999px;
-  padding: 11px 16px;
-  font-size: 14px;
-  font-weight: 700;
-  box-shadow: 0 4px 14px rgba(231, 177, 200, 0.08);
-}
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 16px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.section-title {
-  font-size: 30px;
-  font-weight: 800;
-  color: #cc6088;
-  margin-bottom: 6px;
-}
-
-.section-sub {
-  color: #85706a;
-  font-size: 15px;
-}
-
-.section-count {
-  font-weight: 700;
-}
-
-.spring-product-grid {
-  gap: 22px;
-}
-
-/* 상품 카드가 JS로 생성될 때 자연스럽게 먹도록 범용 스타일 */
-.grid > * {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid #f3dee7;
-  border-radius: 24px;
-  box-shadow: 0 10px 24px rgba(227, 191, 208, 0.12);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.grid > *:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 30px rgba(227, 191, 208, 0.18);
-}
-
-/* 벚꽃 장식 */
-.petal {
-  position: absolute;
-  border-radius: 60% 40% 65% 35%;
-  opacity: 0.45;
-  pointer-events: none;
-  transform: rotate(-18deg);
-}
-
-.petal-1 {
-  width: 110px;
-  height: 110px;
-  right: 34px;
-  top: 28px;
-  background: radial-gradient(circle at 30% 30%, #ffd6e6, #ffb7d0);
-}
-
-.petal-2 {
-  width: 70px;
-  height: 70px;
-  right: 140px;
-  bottom: 50px;
-  background: radial-gradient(circle at 30% 30%, #ffe2ee, #ffc7da);
-}
-
-.petal-3 {
-  width: 88px;
-  height: 88px;
-  right: 90px;
-  top: 120px;
-  background: radial-gradient(circle at 30% 30%, #fff1f6, #ffd2e4);
-}
-
-.footer {
-  margin-top: 48px;
-  padding: 28px 0 40px;
-  border-top: 1px solid #f2dce5;
-  color: #6a574f;
-}
-
-.footer-sub {
-  margin-top: 6px;
-  color: #9a7a6e;
-}
-
-/* 반응형 */
-@media (max-width: 980px) {
-  .spring-hero {
-    grid-template-columns: 1fr;
-  }
-
-  .spring-panel {
-    padding: 32px 24px;
-  }
-
-  .spring-panel h1 {
-    font-size: 34px;
-  }
-}
-
-@media (max-width: 640px) {
-  .brand {
-    font-size: 24px;
-  }
-
-  .spring-panel h1 {
-    font-size: 28px;
-  }
-
-  .section-title {
-    font-size: 24px;
-  }
-
-  .btn {
-    width: 100%;
-  }
-
-  .hero-actions {
-    flex-direction: column;
-  }
-}
+  <script src="/assets/app.js"></script>
+  <script>
+    renderHeader();
+    loadProducts();
+  </script>
+</body>
+</html>
