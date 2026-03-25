@@ -36,9 +36,9 @@ jobs:
 
       - name: DB secret
         run: |
-          kubectl create secret generic my-app-secrets `
-          --from-literal=DB_HOST=kbh-team-rds-mysql.clo62q46ww0g.ap-northeast-2.rds.amazonaws.com `
-          --from-literal=DB_PW='admin1234' `
+          kubectl create secret generic my-app-secrets \
+          --from-literal=DB_HOST=kbh-team-rds-mysql.clo62q46ww0g.ap-northeast-2.rds.amazonaws.com \
+          --from-literal=DB_PW='admin1234' \
           -n soldesk    
       
       - name: install ingress-nginx controller
@@ -56,7 +56,7 @@ jobs:
       - name: install argo-cd
         run: |
           kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-          
+
 
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
