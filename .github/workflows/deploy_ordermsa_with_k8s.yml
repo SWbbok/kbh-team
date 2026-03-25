@@ -42,6 +42,17 @@ jobs:
           -n soldesk \
           --dry-run=client -o yaml | kubectl apply -f -
       
+      - name: aws secret
+        run: |
+         kubectl create secret generic aws-secret \
+         --from-literal=AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
+         --from-literal=AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+         -n soldesk \
+         --dry-run=client -o yaml | kubectl apply -f -
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_SECRET_ACCESS_KEY }}
+      
       - name: install ingress-nginx controller
         run: |
           kubectl apply  -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/aws/deploy.yaml
@@ -198,6 +209,8 @@ jobs:
         run: |
           kubectl apply -f ./msa/frontend/k8s/depl_svc.yml
           kubectl rollout restart deployment frontend-depl -n soldesk
+
+
 
       - name: autoscaler apply
         run: |
