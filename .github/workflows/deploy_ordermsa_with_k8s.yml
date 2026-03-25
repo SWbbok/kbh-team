@@ -58,6 +58,10 @@ jobs:
         run: |
           kubectl apply -n argocd --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
+      - name: wait for argocd crds
+        run: |
+          kubectl wait --for=condition=Established --timeout=180s crd/applications.argoproj.io
+
 
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
@@ -77,6 +81,10 @@ jobs:
               - 'msa/product/**'
             frontend:
               - 'msa/frontend/**'
+            shared_k8s:
+              - 'msa/k8s/**'
+            argocd:
+              - 'argocd/**'
 
       - name: stop if no service changed
         if: |
@@ -84,9 +92,11 @@ jobs:
           steps.changes.outputs.member != 'true' &&
           steps.changes.outputs.ordering != 'true' &&
           steps.changes.outputs.product != 'true' &&
-          steps.changes.outputs.frontend != 'true'
+          steps.changes.outputs.frontend != 'true' &&
+          steps.changes.outputs.shared_k8s != 'true' &&
+          steps.changes.outputs.argocd != 'true'
         run: |
-          echo "No service directory changed. Skip build & deploy."
+          echo "No deploy-related directory changed."
           exit 0
 
       - name: apply shared kubernetes manifests
@@ -188,8 +198,3 @@ jobs:
         run: |
           kubectl apply -f ./msa/frontend/k8s/depl_svc.yml
           kubectl rollout restart deployment frontend-depl -n soldesk
-      
-      - name: apply argocd manifests
-        if: steps.changes.outputs.argocd == 'true'
-        run: |
-          kubectl apply -R -f ./argocd
