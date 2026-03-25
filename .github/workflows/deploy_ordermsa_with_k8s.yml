@@ -121,7 +121,7 @@ jobs:
       - name: apply argocd manifests
         # if: steps.changes.outputs.argocd == 'true'
         run: |
-          kubectl apply -R -f ./argocd/apps
+          kubectl apply -R -f ./argocd/
           
       - name: gateway build and push docker image to ecr
         # if: steps.changes.outputs.gateway == 'true'
@@ -218,9 +218,3 @@ jobs:
       - name: autoscaler apply
         run: |
           kubectl apply -R -f ./msa/k8s/autoscaler
-
-
-      - name: apply argocd manifests
-        # if: steps.changes.outputs.argocd == 'true'
-        run: |
-          kubectl apply -f ./argocd/root-app.yml
