@@ -34,18 +34,29 @@ jobs:
           kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
           kubectl create namespace monitoring --dry-run=client -o yaml | kubectl apply -f -
 
-      - name: bootstrap kubernetes addons and shared resources
+      - name: DB secret
+        run: |
+          kubectl create secret generic my-app-secrets `
+          --from-literal=DB_HOST=kbh-team-rds-mysql.clo62q46ww0g.ap-northeast-2.rds.amazonaws.com `
+          --from-literal=DB_PW='admin1234' `
+          -n soldesk    
+      
+      - name: install ingress-nginx controller
         run: |
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/aws/deploy.yaml
-          kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.19.4/cert-manager.yaml
-          kubectl apply -R -f ./msa/k8s/k8s-argocd
-          kubectl apply -R -f ./msa/k8s/k8s-hpa
-          kubectl apply -R -f ./msa/k8s/k8s-monitoring
-          kubectl apply -R -f ./msa/k8s/k8s-services
-          kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-          kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-      
 
+      - name: install cert-manager
+        run: |
+          kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.19.4/cert-manager.yaml
+
+      - name: install metrics-server
+        run: |
+          kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+      - name: install argo-cd
+        run: |
+          kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+          
 
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
@@ -77,6 +88,16 @@ jobs:
           echo "No service directory changed. Skip build & deploy."
           exit 0
 
+      - name: apply shared kubernetes manifests
+        if: steps.changes.outputs.shared_k8s == 'true'
+        run: |
+          kubectl apply -R -f ./msa/k8s
+
+      - name: apply argocd manifests
+        if: steps.changes.outputs.argocd == 'true'
+        run: |
+          kubectl apply -R -f ./argocd
+          
       - name: gateway build and push docker image to ecr
         if: steps.changes.outputs.gateway == 'true'
         env:
