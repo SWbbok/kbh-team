@@ -80,7 +80,7 @@ jobs:
       - name: install kube-state-metrics
         run: |
           git clone https://github.com/kubernetes/kube-state-metrics.git
-          kubectl apply -f kube-state-metrics/examples/standard/
+          kubectl apply -k kube-state-metrics/examples/standard/
 
       # 2. 업데이트된 프로메테우스 설정(ConfigMap) 적용
       - name: update prometheus config
