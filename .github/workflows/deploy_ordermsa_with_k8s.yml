@@ -70,7 +70,8 @@ jobs:
 
       - name: install argo-cd
         run: |
-          kubectl apply -n argocd --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+          kubectl apply -n argocd --server-side -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml \
+          --dry-run=client -o yaml | kubectl apply -f -
 
       - name: wait for argocd crds
         run: |
