@@ -21,16 +21,16 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: server-aws-kbh-click-tls
+  name: server-aws-bbok-click-tls
   namespace: soldesk
 spec:
-  secretName: server-aws-kbh-click-tls
+  secretName: server-aws-bbok-click-tls
   duration: 2160h #90day
   renewBefore: 360h #before 15day
   issuerRef:
     name: my-issuer
     kind: ClusterIssuer
-  commonName: server.aws-kbh.click
+  commonName: server.aws-bbok.click
   dnsNames:
-  - server.aws-kbh.click
+  - server.aws-bbok.click
 

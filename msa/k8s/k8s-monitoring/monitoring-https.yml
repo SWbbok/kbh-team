@@ -1,15 +1,15 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: monitoring-aws-kbh-click-tls
+  name: monitoring-aws-bbok-click-tls
   namespace: monitoring
 spec:
-  secretName: monitoring-aws-kbh-click-tls
+  secretName: monitoring-aws-bbok-click-tls
   duration: 2160h  		# 90d
   renewBefore: 360h  	# 15d
   issuerRef:
     name: my-issuer
     kind: ClusterIssuer
   dnsNames:
-  - prometheus.aws-kbh.click
-  - grafana.aws-kbh.click
+  - prometheus.aws-bbok.click
+  - grafana.aws-bbok.click

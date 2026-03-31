@@ -2,15 +2,15 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: argo-aws-kbh-click-tls
+  name: argo-aws-bbok-click-tls
   namespace: argocd
 spec:
-  secretName: argo-aws-kbh-click-tls
+  secretName: argo-aws-bbok-click-tls
   duration: 2160h #90day
   renewBefore: 360h #before 15day
   issuerRef:
     name: my-issuer
     kind: ClusterIssuer
-  commonName: argo.aws-kbh.click
+  commonName: argo.aws-bbok.click
   dnsNames:
-  - argo.aws-kbh.click
+  - argo.aws-bbok.click

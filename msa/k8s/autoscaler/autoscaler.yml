@@ -7,8 +7,8 @@ metadata:
     k8s-app: cluster-autoscaler
   name: cluster-autoscaler
   namespace: kube-system
-  annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::683668078297:role/kbh-team-autocsaling-oidc-role
+  annotations:            
+    eks.amazons.com/role-arn: arn:aws:iam::628203514866:role/kbh-autoscaling-oidc-role
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -160,7 +160,7 @@ spec:
           command:
             - ./cluster-autoscaler
             - --v=4
-            - --cluster-name=kbh-team-cluster
+            - --cluster-name=my-cluster
             - --stderrthreshold=info
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
@@ -168,7 +168,7 @@ spec:
             - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/kbh-team-cluster
           env:
             - name: AWS_REGION
-              value: "ap-northeast-2"
+              value: ap-northeast-2
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt # /etc/ssl/certs/ca-bundle.crt for Amazon Linux Worker Nodes

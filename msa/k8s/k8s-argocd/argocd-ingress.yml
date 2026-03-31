@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      - argo.aws-kbh.click
-    secretName: argo-aws-kbh-click-tls
+      - argo.aws-bbok.click
+    secretName: argo-aws-bbok-click-tls
   rules:
-  - host: argo.aws-kbh.click
+  - host: argo.aws-bbok.click
     http:
       paths:
         - path: /
