@@ -7,8 +7,13 @@ metadata:
     k8s-app: cluster-autoscaler
   name: cluster-autoscaler
   namespace: kube-system
+<<<<<<< HEAD
   annotations:            
     eks.amazonaws.com/role-arn: arn:aws:iam::628203514866:role/kbh-autoscaling-oidc-role
+=======
+  annotations:           
+    eks.amazonaws.com/role-arn: arn:aws:iam::628203514866:role/kbh-autoscaling-oidc-role 
+>>>>>>> 7a6a476 (first deployment)
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -160,13 +165,16 @@ spec:
           command:
             - ./cluster-autoscaler
             - --v=4
+<<<<<<< HEAD
             - --cluster-name=my-cluster
+=======
+>>>>>>> 7a6a476 (first deployment)
             - --stderrthreshold=info
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
             - --expander=least-waste
             - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/kbh-team-cluster
-          env:
+          env:                         
             - name: AWS_REGION
               value: ap-northeast-2
           volumeMounts:

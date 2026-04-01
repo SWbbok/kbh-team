@@ -48,4 +48,8 @@ cloud:
     region:
       static: ap-northeast-2
     s3:
+<<<<<<< HEAD
       bucket: kbh-teamproject-628203514866  
+=======
+      bucket: kbh-teamproject-628203514866 
+>>>>>>> 7a6a476 (first deployment)
