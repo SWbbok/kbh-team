@@ -25,8 +25,8 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     generate-ddl: true
     hibernate:
-      ddl-auto: update
-      #ddl-auto: create
+      #ddl-auto: update
+      ddl-auto: create
     show_sql: true
   kafka:
     listener:
@@ -48,8 +48,4 @@ cloud:
     region:
       static: ap-northeast-2
     s3:
-<<<<<<< HEAD
-      bucket: kbh-teamproject-628203514866  
-=======
-      bucket: kbh-teamproject-628203514866 
->>>>>>> 7a6a476 (first deployment)
+      bucket: kbh-teamproject-628203514866
