@@ -5,15 +5,10 @@ metadata:
   labels:
     k8s-addon: cluster-autoscaler.addons.k8s.io
     k8s-app: cluster-autoscaler
-  name: cluster-autoscaler
-  namespace: kube-system
-<<<<<<< HEAD
-  annotations:            
+    name: cluster-autoscaler
+    namespace: kube-system
+    annotations:           
     eks.amazonaws.com/role-arn: arn:aws:iam::628203514866:role/kbh-autoscaling-oidc-role
-=======
-  annotations:           
-    eks.amazonaws.com/role-arn: arn:aws:iam::628203514866:role/kbh-autoscaling-oidc-role 
->>>>>>> 7a6a476 (first deployment)
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -165,10 +160,6 @@ spec:
           command:
             - ./cluster-autoscaler
             - --v=4
-<<<<<<< HEAD
-            - --cluster-name=my-cluster
-=======
->>>>>>> 7a6a476 (first deployment)
             - --stderrthreshold=info
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
