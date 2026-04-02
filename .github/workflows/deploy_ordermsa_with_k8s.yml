@@ -76,27 +76,6 @@ jobs:
         run: |
           kubectl wait --for=condition=Established --timeout=180s crd/applications.argoproj.io
 
-      # 1. kube-state-metrics 설치 (이미 작성하신 부분)
-      - name: install kube-state-metrics
-        run: |
-          git clone https://github.com/kubernetes/kube-state-metrics.git
-          kubectl apply -k kube-state-metrics/examples/standard/
-
-      # 2. 업데이트된 프로메테우스 설정(ConfigMap) 적용
-      - name: update prometheus config
-        run: |
-         # 주의: 아래 파일 경로는 실제 깃허브 리포지토리에 있는 ConfigMap 파일 경로로 맞춰주세요!
-         kubectl apply -f ./msa/k8s/k8s-monitoring/prometheus-config.yml
-
-       # 3. 프로메테우스 재시작 (새 설정을 읽어오도록 강제 새로고침)
-      - name: restart prometheus
-        run: |
-         kubectl rollout restart deployment prometheus -n monitoring
-
-      # 4. 프로메테우스 재시작 (새 ConfigMap을 읽어오도록 강제 새로고침)
-      - name: restart prometheus
-        run: |
-          kubectl rollout restart deployment prometheus -n monitoring
 
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
@@ -143,6 +122,29 @@ jobs:
         # if: steps.changes.outputs.argocd == 'true'
         run: |
           kubectl apply -R -f ./argocd/
+
+      # 1. kube-state-metrics 설치 (이미 작성하신 부분)
+      - name: install kube-state-metrics
+        run: |
+          git clone https://github.com/kubernetes/kube-state-metrics.git
+          kubectl apply -k kube-state-metrics/examples/standard/
+
+      # 2. 업데이트된 프로메테우스 설정(ConfigMap) 적용
+      - name: update prometheus config
+        run: |
+         # 주의: 아래 파일 경로는 실제 깃허브 리포지토리에 있는 ConfigMap 파일 경로로 맞춰주세요!
+         kubectl apply -f ./msa/k8s/k8s-monitoring/prometheus-config.yml
+
+       # 3. 프로메테우스 재시작 (새 설정을 읽어오도록 강제 새로고침)
+      - name: restart prometheus
+        run: |
+         kubectl rollout restart deployment prometheus -n monitoring
+
+      # 4. 프로메테우스 재시작 (새 ConfigMap을 읽어오도록 강제 새로고침)
+      - name: restart prometheus
+        run: |
+          kubectl rollout restart deployment prometheus -n monitoring
+
           
       - name: gateway build and push docker image to ecr
         # if: steps.changes.outputs.gateway == 'true'
